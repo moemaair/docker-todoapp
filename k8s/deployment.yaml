@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docker-app
+  template:
+    metadata:
+      labels:
+        app: docker-app
+    spec:
+      containers:
+      - name: app
+        image: moemaair/myapp:latest
+        ports:
+        - containerPort: 3000
