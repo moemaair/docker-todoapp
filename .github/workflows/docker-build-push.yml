@@ -32,6 +32,13 @@ jobs:
         run: |
           docker push moemaair/myapp:${{ github.sha }}
 
+      # 🚀 Start app 
+      - name: Start App
+        run: |
+          docker compose up -d
+          sleep 15   # wait for app to boot
+
+
       # ⚡ OWASP ZAP Scan
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
