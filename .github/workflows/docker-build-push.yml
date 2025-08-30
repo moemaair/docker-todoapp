@@ -26,4 +26,4 @@ jobs:
 
       - name: Push Image to Docker Hub
         run: |
-          docker push moemaair/myapp:latests:${{ github.sha }}
+          docker push moemaair/myapp:${{ github.sha }}
