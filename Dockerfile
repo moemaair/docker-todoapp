@@ -1,13 +1,17 @@
-FROM node:10-alpine
+FROM node:20-alpine
 
 # Create app directory
 WORKDIR /var/www/todoapp
-
-# Bundle app source
-COPY . .
+COPY package*.json ./
 
 # Install app dependencies
 RUN npm install
 
-EXPOSE 8080
+# Bundle app source
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
 CMD [ "node", "server.js" ]
