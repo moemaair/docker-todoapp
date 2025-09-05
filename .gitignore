@@ -98,9 +98,18 @@ npm-debug.log
 
 # Terraform 
 terraform/.terraform/
-terraform/*.tfstate
-terraform/*.tfstate.*
+terraform/.tfstate
+terraform/.tfstate.*
 terraform/crash.log
+terraform/override.tf
+terraform/override.tf.json
+terraform/*_override.tf
+terraform/*_override.tf.json
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate.backup
 
 # Sensitive files
 *.tfvars
+
+*.log
+docker-todoapp/node_modules/
