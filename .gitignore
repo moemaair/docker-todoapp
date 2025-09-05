@@ -93,4 +93,14 @@ typings/
 .dynamodb/
 
 # End of https://www.gitignore.io/api/node
-/node_modules
+node_modules/
+npm-debug.log
+
+# Terraform 
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/crash.log
+
+# Sensitive files
+*.tfvars
