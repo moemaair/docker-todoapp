@@ -13,7 +13,16 @@ services:
     environment:
       - NODE_ENV=development  #sets environment variable
       - PORT=3000
-  
+    depends_on: 
+      - mongo  
+
+
+  mongo: 
+    image: mongo #pulls mongodb official image
+    container_name: mongo  # names the it as mongo i.e the container name
+    ports:
+      - "27017:27017"  # maps mongodb default port 
+
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -24,8 +33,4 @@ services:
     depends_on:
       - todoapp
 
-  mongo: 
-    image: mongo #pulls mongodb official image
-    container_name: mongo  # names the it as mongo i.e the container name
-    ports:
-      - "27017:27017"  # maps mongodb default port 
+ 
