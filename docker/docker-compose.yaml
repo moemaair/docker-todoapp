@@ -1,0 +1,31 @@
+version: '3'
+services:
+  todoapp:
+    container_name: todoapp  #name of the container 
+    restart: always # always start container if it stops
+    build: ./ # builds image from Dockerfile in currenct dirrctory
+    volumes:
+      - ./:/var/www/todoapp # mounts local folder into container
+    links:
+      - mongo # links todoapp to mongo (this is an old way usually through networking now)
+    ports:
+      - 3000:3000 # maps container port 3000 -> host port 3000
+    environment:
+      - NODE_ENV=development  #sets environment variable
+      - PORT=3000
+  
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - todoapp
+
+  mongo: 
+    image: mongo #pulls mongodb official image
+    container_name: mongo  # names the it as mongo i.e the container name
+    ports:
+      - "27017:27017"  # maps mongodb default port 
