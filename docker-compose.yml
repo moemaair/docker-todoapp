@@ -9,7 +9,7 @@ services:
     links:
       - mongo # links todoapp to mongo (this is an old way usually through networking now)
     ports:
-      - 3000:3000 
+      - 80:3000 
     #   - NODE_ENV=development  #sets environment variable
     #   - PORT=3000
     # depends_on: 
