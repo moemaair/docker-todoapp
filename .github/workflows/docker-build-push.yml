@@ -26,21 +26,26 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t moemaair/myapp:${{ github.sha }} .    
+          docker build -t moemaair/myapp:${{ github.sha }} -t moemaair/myapp:latest .    
 
       - name: Push Image to Docker Hub
         run: |
           docker push moemaair/myapp:${{ github.sha }}
+          docker push moemaair/myapp:latest
 
-      # 🚀 Start app 
-      - name: Start App
-        run: |
-          docker compose up -d
-          sleep 15   # wait for app to boot
-
-
-      # ⚡ OWASP ZAP Scan
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.10.0
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          target: "http://localhost:3000"   # change to your app’s URL    
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull moemaair/myapp:latest
+            docker-compose down
+            docker-compose up -d
