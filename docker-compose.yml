@@ -4,8 +4,8 @@ services:
     container_name: todoapp  #name of the container 
     restart: always # always start container if it stops
     build: ./ # builds image from Dockerfile in currenct dirrctory
-    volumes:
-      - ./:/app # mounts local folder into container
+    # volumes:
+    #   - ./:/app # mounts local folder into container (removed to avoid overwriting node_modules)
     links:
       - mongo # links todoapp to mongo (this is an old way usually through networking now)
     ports:
