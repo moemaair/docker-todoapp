@@ -1,9 +1,6 @@
 name: Build and Push Docker Image
 
-on:
-  pull_request: # triggers on pull request to any branch
-    branches:
-      - master
+on: [push]
 
 # permissions:
 #   contents: read
@@ -31,7 +28,7 @@ jobs:
         run: |
           docker push moemaair/myapp:${{ github.sha }}
           docker push moemaair/myapp:latest
-      - name : Scan with Trivy 
+      - name : Scan with Trivy for vulnerabilities 
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'moemaair/myapp:latest'
