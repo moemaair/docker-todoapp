@@ -1,10 +1,9 @@
 name: Build and Push Docker Image
 
 on:
-  push:
+  pull_request: # triggers on pull request to any branch
     branches:
-      - master   # runs when you push to main
-  pull_request:
+      - master
 
 # permissions:
 #   contents: read
@@ -32,29 +31,13 @@ jobs:
         run: |
           docker push moemaair/myapp:${{ github.sha }}
           docker push moemaair/myapp:latest
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-          
-      - name: Deploy to EC2 instance
-        uses: appleboy/ssh-action@v0.1.7
+      - name : Scan with Trivy 
+        uses: aquasecurity/trivy-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          timeout: 30s
-          script: |
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            cd /home/ubuntu
-            sudo docker pull moemaair/myapp:latest
-            sudo docker compose down
-            sudo docker compose up -d
+          image-ref: 'moemaair/myapp:latest'
+          format: 'table'
+          exit-code: '1'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+          scan-type: 'image'    

@@ -22,4 +22,4 @@ RUN chown -R nodeuser:nodejs /app
 USER nodeuser
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+CMD ["npm", "start" ]
