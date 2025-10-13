@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Dependency Scanning - Snyk') {
+        stage('Dependency Scanning Tool - Snyk') {
             steps {
                 echo 'Running Snyk dependency scan...'
                 sh '''
